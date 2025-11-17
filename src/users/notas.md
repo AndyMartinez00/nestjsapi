@@ -1,0 +1,21 @@
+--ejcuatar serivor de desarollo
+PS D:\content\vpn\platzi\nestjs\my-blog-api> npm run start:dev
+--crenado un controler con el CLI de nest [nest g controller users]
+PS D:\content\vpn\platzi\nestjs\my-blog-api> nest g controller users
+
+[GET] http://localhost:3000/
+Hello World
+[GET] http://localhost:3000/users
+Fetching all users
+[GET] http://localhost:3000/users/1
+Fetching user with ID 1
+[GET] http://localhost:3000/users/2
+Fetching user with ID 2
+[GET] http://localhost:3000/users/3
+Fetching user with IN ID 3
+
+
+
+[POST] http://localhost:3000/
+[PUT] http://localhost:3000/
+[DELETE] http://localhost:3000/
