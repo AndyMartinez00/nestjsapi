@@ -1,4 +1,4 @@
-import { Controller, Get, Param, NotFoundException } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, NotFoundException, Delete } from '@nestjs/common';
 
 //interface User definition
 interface User {
@@ -48,5 +48,35 @@ export class UsersController {
       throw new NotFoundException(`Usuario con id ${id} no encontrado`);
     }
     return user;
+  }
+
+  //POST /users
+  @Post()
+  //method to create a new user
+  //createUser(@Body() body: { name: string; email: string }) {
+  createUser(@Body() body: User) {
+    console.log('Creating a new user', body);
+    const maxId = this.users.reduce((max, u) => Math.max(max, Number(u.id)), 0);
+    const id = String(maxId + 1);
+    const newUser: User = { id, name: body.name, email: body.email };
+    this.users.push(newUser);
+    return newUser;
+  }
+  //DELETE /users/id
+  @Delete(':id')
+  //method to delete a user by ID
+  deleteUsareById(@Param('id') id: string) {
+    console.log(`Deleting user with ID ${id}`);
+    const userIndex = this.users.findIndex((user) => user.id === id);
+    //const user = this.users.find((user) => user.id === id);
+    if (userIndex === -1) {
+      throw new NotFoundException(`Usuario con id ${id} no encontrado`);
+    }
+    const deletedUser = this.users.splice(userIndex, 1)[0];
+    //return deletedUser;
+    return {
+      message: `Usuario con id ${id} eliminado exitosamente`,
+      deletedUser,
+    };
   }
 }
