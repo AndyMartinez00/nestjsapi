@@ -56,9 +56,19 @@ export class UsersController {
   //createUser(@Body() body: { name: string; email: string }) {
   createUser(@Body() body: User) {
     console.log('Creating a new user', body);
-    const maxId = this.users.reduce((max, u) => Math.max(max, Number(u.id)), 0);
+    /*const maxId = this.users.reduce((max, u) => Math.max(max, Number(u.id)), 0);
     const id = String(maxId + 1);
     const newUser: User = { id, name: body.name, email: body.email };
+    */
+    //--inicia otra forma de hacerlo--
+    const newUser = {
+      //spread operator to copy properties from body
+      //copia todas las propiedades enumerables del objeto body y las inserta dentro del nuevo objeto newUs
+      ...body,
+      //generate new ID based on current length
+      id: String(this.users.length + 1),
+    };
+    //--finaliza otra forma de hacerlo--
     this.users.push(newUser);
     return newUser;
   }
