@@ -18,6 +18,7 @@ Fetching user with IN ID 3
 Creating a new user
 [DELETE] http://localhost:3000/users/2
 Deleting user with ID 2
-
-[PUT] http://localhost:3000/
+[PUT] http://localhost:3000/users/3
+{"name":"Ruleser Smith actulizado","email":"rsmith@test.com"}
+Updating user with ID 3 { name: 'Ruleser Smith actulizado', email: 'rsmith@test.com' }
 

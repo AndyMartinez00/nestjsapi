@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Body, NotFoundException, Delete } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, NotFoundException, Delete, Put } from '@nestjs/common';
 
 //interface User definition
 interface User {
@@ -56,10 +56,10 @@ export class UsersController {
   //createUser(@Body() body: { name: string; email: string }) {
   createUser(@Body() body: User) {
     console.log('Creating a new user', body);
-    /*const maxId = this.users.reduce((max, u) => Math.max(max, Number(u.id)), 0);
+    const maxId = this.users.reduce((max, u) => Math.max(max, Number(u.id)), 0);
     const id = String(maxId + 1);
     const newUser: User = { id, name: body.name, email: body.email };
-    */
+    /*
     //--inicia otra forma de hacerlo--
     const newUser = {
       //spread operator to copy properties from body
@@ -69,6 +69,7 @@ export class UsersController {
       id: String(this.users.length + 1),
     };
     //--finaliza otra forma de hacerlo--
+    */
     this.users.push(newUser);
     return newUser;
   }
@@ -88,5 +89,22 @@ export class UsersController {
       message: `Usuario con id ${id} eliminado exitosamente`,
       deletedUser,
     };
+  }
+  //Put /users/id
+  @Put(':id')
+  //method to update a user by ID and body
+  updateUserById(@Param('id') id: string, @Body() changes: User) {
+    console.log(`Updating user with ID ${id}`, changes);
+    const userIndex = this.users.findIndex((user) => user.id === id);
+    if (userIndex === -1) {
+      throw new NotFoundException(`Usuario con id ${id} no encontrado`);
+    }
+    const existingUser = this.users[userIndex];
+    const updatedUser = {
+      ...existingUser,
+      ...changes,
+    };
+    this.users[userIndex] = updatedUser;
+    return updatedUser;
   }
 }
