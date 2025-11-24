@@ -2,6 +2,12 @@
 PS D:\content\vpn\platzi\nestjs\my-blog-api> npm run start:dev
 --crenado un controler con el CLI de nest [nest g controller users]
 PS D:\content\vpn\platzi\nestjs\my-blog-api> nest g controller users
+--formats con prettier
+Para abrir la paleta de comandos,
+  puede usar COMMAND + SHIFT + P en macOS
+  o CTRL + SHIFT + P en Windows.
+En la paleta de comandos, busque format y seleccione Format Document.
+
 
 [GET] http://localhost:3000/
 Hello World
