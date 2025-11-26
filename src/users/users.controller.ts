@@ -56,22 +56,22 @@ export class UsersController {
   //createUser(@Body() body: { name: string; email: string }) {
   createUser(@Body() body: User) {
     console.log('Creating a new user', body);
-    const maxId = this.users.reduce((max, u) => Math.max(max, Number(u.id)), 0);
+    //valida del objeto body
+    const { name, email } = this.validarNuevoUsuario(body);
+    //generate new ID
+    const maxId = this.users.reduce((max, u) => {
+      const current = Number(u.id);
+      return Number.isNaN(current) ? max : Math.max(max, current);
+    }, 0);
+    //const maxId = this.users.reduce((max, u) => Math.max(max, Number(u.id)), 0);
     const id = String(maxId + 1);
-    const newUser: User = { id, name: body.name, email: body.email };
-    /*
-    //--inicia otra forma de hacerlo--
-    const newUser = {
-      //spread operator to copy properties from body
-      //copia todas las propiedades enumerables del objeto body y las inserta dentro del nuevo objeto newUs
-      ...body,
-      //generate new ID based on current length
-      id: String(this.users.length + 1),
-    };
-    //--finaliza otra forma de hacerlo--
-    */
+    const newUser: User = { id, name: name, email: email };
+    //add new user to users array
     this.users.push(newUser);
-    return newUser;
+    return {
+      message: `Usuario con id ${newUser.id} creado exitosamente`,
+      newUser,
+    };
   }
   //DELETE /users/id
   @Delete(':id')
@@ -99,12 +99,61 @@ export class UsersController {
     if (userIndex === -1) {
       throw new NotFoundException(`Usuario con id ${id} no encontrado`);
     }
+
+    const { name, email } = this.validarNuevoUsuario(changes, id);
+    changes.name = name;
+    changes.email = email;
     const existingUser = this.users[userIndex];
     const updatedUser = {
       ...existingUser,
       ...changes,
     };
     this.users[userIndex] = updatedUser;
-    return updatedUser;
+    //return updatedUser;
+    return {
+      message: `Usuario con id ${updatedUser.id} actualizado exitosamente`,
+      updatedUser,
+    };
+  }
+
+  // ======================================================
+  // 🔐 Función privada de validación dentro del controlador
+  // ======================================================
+  private validarNuevoUsuario(body: User, idActual: string | null = null) {
+    const name = (body.name || '').trim();
+    const email = (body.email || '').trim().toLowerCase();
+
+    // Validación: nombre obligatorio
+    if (!name) {
+      throw new NotFoundException('El nombre es obligatorio.');
+    }
+
+    // Validación: email obligatorio
+    if (!email) {
+      throw new NotFoundException('El correo es obligatorio.');
+    }
+
+    // Validación: formato de email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      throw new NotFoundException('El correo no tiene un formato válido.');
+    }
+
+    // Validación: email duplicado
+    //const emailExists = this.users.some((u) => u.email.toLowerCase() === email && (idActual ? u.id !== idActual : true));
+    const emailExists = this.users.some(function (u) {
+      // Uso de función tradicional para mayor claridad
+      // Verifica si el email ya existe en otro usuario
+      // Si idActual es proporcionado, excluye ese usuario de la verificación
+      // Retorna true si encuentra un email duplicado
+      return u.email.toLowerCase() === email && (idActual ? u.id !== idActual : true);
+    });
+
+    if (emailExists) {
+      throw new NotFoundException('Ya existe un usuario con ese correo.');
+    }
+
+    // Retornar valores ya normalizados
+    return { name, email };
   }
 }
