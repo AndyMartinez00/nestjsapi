@@ -1,4 +1,5 @@
 import { Controller, Get, Param, Post, Body, NotFoundException, Delete, Put, UnprocessableEntityException, ForbiddenException } from '@nestjs/common';
+import { CreateUserDto } from './user.dt';
 
 //interface User definition
 interface User {
@@ -59,10 +60,10 @@ export class UsersController {
   @Post()
   //method to create a new user
   //createUser(@Body() body: { name: string; email: string }) {
-  createUser(@Body() body: User) {
+  createUser(@Body() body: CreateUserDto) {
     console.log('Creating a new user', body);
     //valida del objeto body
-    const { name, email } = this.validarNuevoUsuario(body);
+    //const { name, email } = this.validarNuevoUsuario(body);
     //generate new ID
     const maxId = this.users.reduce((max, u) => {
       const current = Number(u.id);
@@ -70,7 +71,7 @@ export class UsersController {
     }, 0);
     //const maxId = this.users.reduce((max, u) => Math.max(max, Number(u.id)), 0);
     const id = String(maxId + 1);
-    const newUser: User = { id, name: name, email: email };
+    const newUser: User = { id: id, name: body.username, email: body.email };
     //add new user to users array
     this.users.push(newUser);
     return {
