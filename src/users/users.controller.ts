@@ -49,7 +49,7 @@ export class UsersController {
       throw new NotFoundException(`Usuario con id ${id} no encontrado`);
     }
     // Forbidden access to user with ID 3
-    if (user.id === '3'){
+    if (user.id === '3') {
       throw new ForbiddenException('No tienes permiso para acceder a este usuario.');
     }
     return user;
