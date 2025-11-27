@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Body, NotFoundException, Delete, Put } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, NotFoundException, Delete, Put, UnprocessableEntityException, ForbiddenException } from '@nestjs/common';
 
 //interface User definition
 interface User {
@@ -14,6 +14,7 @@ export class UsersController {
     { id: '1', name: 'John Doe', email: 'jdoe@test.com' },
     { id: '2', name: 'Jane Smith', email: 'jsmith@test.com' },
     { id: '3', name: 'Alice Johnson pentes', email: 'ajohnson@test.com' },
+    { id: '4', name: 'Alice finner', email: 'afinner@test.com' },
   ];
   //GET /users
   @Get()
@@ -46,6 +47,10 @@ export class UsersController {
     const user = this.users.find((user) => user.id === id);
     if (!user) {
       throw new NotFoundException(`Usuario con id ${id} no encontrado`);
+    }
+    // Forbidden access to user with ID 3
+    if (user.id === '3'){
+      throw new ForbiddenException('No tienes permiso para acceder a este usuario.');
     }
     return user;
   }
@@ -125,18 +130,18 @@ export class UsersController {
 
     // Validación: nombre obligatorio
     if (!name) {
-      throw new NotFoundException('El nombre es obligatorio.');
+      throw new UnprocessableEntityException('El nombre es obligatorio.');
     }
 
     // Validación: email obligatorio
     if (!email) {
-      throw new NotFoundException('El correo es obligatorio.');
+      throw new UnprocessableEntityException('El correo es obligatorio.');
     }
 
     // Validación: formato de email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      throw new NotFoundException('El correo no tiene un formato válido.');
+      throw new UnprocessableEntityException('El correo no tiene un formato válido.');
     }
 
     // Validación: email duplicado
@@ -150,7 +155,7 @@ export class UsersController {
     });
 
     if (emailExists) {
-      throw new NotFoundException('Ya existe un usuario con ese correo.');
+      throw new UnprocessableEntityException('Ya existe un usuario con ese correo.');
     }
 
     // Retornar valores ya normalizados
