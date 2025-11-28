@@ -21,6 +21,21 @@ To address all issues, run:
 npm audit fix
 
 Run `npm audit` for details.
+--para dar fromato a todo el proyecto npm run format
+PS D:\content\vpn\platzi\nestjs\my-blog-api> npm run format
+
+> my-blog-api@0.0.1 format
+> prettier --write "src/**/\*.ts" "test/**/\*.ts"
+
+src/app.controller.spec.ts 162ms
+src/app.controller.ts 8ms
+src/app.module.ts 6ms
+src/app.service.ts 2ms
+src/main.ts 6ms (unchanged)
+src/users/user.dt.ts 3ms (unchanged)
+src/users/users.controller.spec.ts 6ms
+src/users/users.controller.ts 53ms (unchanged)
+test/app.e2e-spec.ts 9ms
 
 [GET] http://localhost:3000/
 Hello World
