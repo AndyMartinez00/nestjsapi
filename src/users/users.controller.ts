@@ -106,9 +106,10 @@ export class UsersController {
       throw new NotFoundException(`Usuario con id ${id} no encontrado`);
     }
 
-    //valida email duplicado
-    this.validarEmailDuplicado(changes.email, id);
-
+    //valida email duplicado si los cambios incluyen email
+    if (changes.email) {
+      this.validarEmailDuplicado(changes.email, id);
+    }
     const existingUser = this.users[userIndex];
     const updatedUser = {
       ...existingUser,
