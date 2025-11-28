@@ -1,5 +1,5 @@
 import { Controller, Get, Param, Post, Body, NotFoundException, Delete, Put, UnprocessableEntityException, ForbiddenException } from '@nestjs/common';
-import { CreateUserDto } from './user.dt';
+import { CreateUserDto, UpdateUserDto } from './user.dt';
 
 //interface User definition
 interface User {
@@ -62,8 +62,8 @@ export class UsersController {
   //createUser(@Body() body: { name: string; email: string }) {
   createUser(@Body() body: CreateUserDto) {
     console.log('Creating a new user', body);
-    //valida del objeto body
-    //const { name, email } = this.validarNuevoUsuario(body);
+    //valida email duplicado
+    this.validarEmailDuplicado(body.email);
     //generate new ID
     const maxId = this.users.reduce((max, u) => {
       const current = Number(u.id);
@@ -71,7 +71,7 @@ export class UsersController {
     }, 0);
     //const maxId = this.users.reduce((max, u) => Math.max(max, Number(u.id)), 0);
     const id = String(maxId + 1);
-    const newUser: User = { id: id, name: body.username, email: body.email };
+    const newUser: User = { id: id, name: body.name, email: body.email };
     //add new user to users array
     this.users.push(newUser);
     return {
@@ -99,16 +99,16 @@ export class UsersController {
   //Put /users/id
   @Put(':id')
   //method to update a user by ID and body
-  updateUserById(@Param('id') id: string, @Body() changes: User) {
+  updateUserById(@Param('id') id: string, @Body() changes: UpdateUserDto) {
     console.log(`Updating user with ID ${id}`, changes);
     const userIndex = this.users.findIndex((user) => user.id === id);
     if (userIndex === -1) {
       throw new NotFoundException(`Usuario con id ${id} no encontrado`);
     }
 
-    const { name, email } = this.validarNuevoUsuario(changes, id);
-    changes.name = name;
-    changes.email = email;
+    //valida email duplicado
+    this.validarEmailDuplicado(changes.email, id);
+
     const existingUser = this.users[userIndex];
     const updatedUser = {
       ...existingUser,
@@ -161,5 +161,20 @@ export class UsersController {
 
     // Retornar valores ya normalizados
     return { name, email };
+  }
+  // ======================================================
+  // Validación: email duplicado
+  private validarEmailDuplicado(email: string, idActual: string | null = null): boolean {
+    const emailLower = email.toLowerCase();
+
+    const emailExists = this.users.some(function (u) {
+      return u.email.toLowerCase() === emailLower && (idActual ? u.id !== idActual : true);
+    });
+
+    if (emailExists) {
+      throw new UnprocessableEntityException('Ya existe un usuario con ese correo.');
+    }
+
+    return false; // no hay duplicado
   }
 }
