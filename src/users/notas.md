@@ -36,6 +36,11 @@ src/users/user.dt.ts 3ms (unchanged)
 src/users/users.controller.spec.ts 6ms
 src/users/users.controller.ts 53ms (unchanged)
 test/app.e2e-spec.ts 9ms
+--crenado un servicio con el CLI de nest [nest g service users]
+PS D:\content\vpn\platzi\nestjs\my-blog-api> nest g service users
+CREATE src/users/users.service.ts (93 bytes)
+CREATE src/users/users.service.spec.ts (471 bytes)
+UPDATE src/app.module.ts (394 bytes)
 
 [GET] http://localhost:3000/
 Hello World
