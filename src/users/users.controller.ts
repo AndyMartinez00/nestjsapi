@@ -39,6 +39,7 @@ export class UsersController {
   //method to get user by dynamic ID
   getUserById(@Param('id') id: string) {
     console.log(`Fetching user with IN ID ${id}`);
+    //call service method to find user by ID
     const user = this.usersService.findById(id);
     return user;
   }
@@ -48,30 +49,27 @@ export class UsersController {
   //createUser(@Body() body: { name: string; email: string }) {
   createUser(@Body() body: CreateUserDto) {
     console.log('Creating a new user', body);
+    //call service method to create a new user
     const newUser = this.usersService.createUser(body);
     return {
       message: `Usuario con id ${newUser.id} creado exitosamente`,
       newUser,
     };
   }
-  /*
   //DELETE /users/id
   @Delete(':id')
   //method to delete a user by ID
   deleteUsareById(@Param('id') id: string) {
     console.log(`Deleting user with ID ${id}`);
-    const userIndex = this.users.findIndex((user) => user.id === id);
-    //const user = this.users.find((user) => user.id === id);
-    if (userIndex === -1) {
-      throw new NotFoundException(`Usuario con id ${id} no encontrado`);
-    }
-    const deletedUser = this.users.splice(userIndex, 1)[0];
+    //call service method to delete user by ID
+    const deletedUser = this.usersService.deleteUser(id);
     //return deletedUser;
     return {
       message: `Usuario con id ${id} eliminado exitosamente`,
       deletedUser,
     };
   }
+  /*
   //Put /users/id
   @Put(':id')
   //method to update a user by ID and body

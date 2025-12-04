@@ -60,4 +60,14 @@ export class UsersService {
 
     return false; // no hay duplicado
   }
+  //method to delete a user by ID
+  deleteUser(id: string) {
+    const userIndex = this.users.findIndex((user) => user.id === id);
+    //const user = this.users.find((user) => user.id === id);
+    if (userIndex === -1) {
+      throw new NotFoundException(`Usuario con id ${id} no encontrado`);
+    }
+    const deletedUser = this.users.splice(userIndex, 1)[0];
+    return deletedUser;
+  }
 }
