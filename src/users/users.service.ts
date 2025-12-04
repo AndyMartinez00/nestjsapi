@@ -1,6 +1,6 @@
 import { ForbiddenException, Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import { User } from './user.model';
-import { CreateUserDto } from './user.dt';
+import { CreateUserDto, UpdateUserDto } from './user.dt';
 
 @Injectable()
 export class UsersService {
@@ -21,10 +21,8 @@ export class UsersService {
   }
   //method to find user by ID
   findById(id: string) {
-    const user = this.users.find((user) => user.id === id);
-    if (!user) {
-      throw new NotFoundException(`Usuario con id ${id} no encontrado`);
-    }
+    const userIndex = this.findUserIndexById(id);
+    const user = this.users[userIndex];
     // Forbidden access to user with ID 3
     if (user.id === '3') {
       throw new ForbiddenException('No tienes permiso para acceder a este usuario.');
@@ -62,12 +60,33 @@ export class UsersService {
   }
   //method to delete a user by ID
   deleteUser(id: string) {
+    const userIndex = this.findUserIndexById(id);
+    //elimina el usuario del array
+    const deletedUser = this.users.splice(userIndex, 1)[0];
+    return deletedUser;
+  }
+  //method to update a user by ID
+  updateUser(id: string, changes: UpdateUserDto) {
+    const userIndex = this.findUserIndexById(id);
+    //valida email duplicado si los cambios incluyen email
+    if (changes.email) {
+      this.validarEmailDuplicado(changes.email, id);
+    }
+    //actualiza el usuario
+    const existingUser = this.users[userIndex];
+    const updatedUser = {
+      ...existingUser,
+      ...changes,
+    };
+    this.users[userIndex] = updatedUser;
+    return updatedUser;
+  }
+  //metodo privado para retronar posiionn del usuario en el array
+  private findUserIndexById(id: string): number {
     const userIndex = this.users.findIndex((user) => user.id === id);
-    //const user = this.users.find((user) => user.id === id);
     if (userIndex === -1) {
       throw new NotFoundException(`Usuario con id ${id} no encontrado`);
     }
-    const deletedUser = this.users.splice(userIndex, 1)[0];
-    return deletedUser;
+    return userIndex;
   }
 }

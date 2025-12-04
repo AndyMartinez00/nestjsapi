@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Body, NotFoundException, Delete, Put, UnprocessableEntityException, ForbiddenException } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, Delete, Put } from '@nestjs/common';
 import { CreateUserDto, UpdateUserDto } from './user.dt';
 import { UsersService } from './users.service';
 
@@ -69,74 +69,17 @@ export class UsersController {
       deletedUser,
     };
   }
-  /*
   //Put /users/id
   @Put(':id')
   //method to update a user by ID and body
   updateUserById(@Param('id') id: string, @Body() changes: UpdateUserDto) {
     console.log(`Updating user with ID ${id}`, changes);
-    const userIndex = this.users.findIndex((user) => user.id === id);
-    if (userIndex === -1) {
-      throw new NotFoundException(`Usuario con id ${id} no encontrado`);
-    }
-
-    //valida email duplicado si los cambios incluyen email
-    if (changes.email) {
-      this.validarEmailDuplicado(changes.email, id);
-    }
-    const existingUser = this.users[userIndex];
-    const updatedUser = {
-      ...existingUser,
-      ...changes,
-    };
-    this.users[userIndex] = updatedUser;
-    //return updatedUser;
+    //call service method to update user by ID
+    const updatedUser = this.usersService.updateUser(id, changes);
+    //return updatedUser
     return {
       message: `Usuario con id ${updatedUser.id} actualizado exitosamente`,
       updatedUser,
     };
   }
-
-  // ======================================================
-  // 🔐 Función privada de validación dentro del controlador
-  // ======================================================
-  private validarNuevoUsuario(body: User, idActual: string | null = null) {
-    const name = (body.name || '').trim();
-    const email = (body.email || '').trim().toLowerCase();
-
-    // Validación: nombre obligatorio
-    if (!name) {
-      throw new UnprocessableEntityException('El nombre es obligatorio.');
-    }
-
-    // Validación: email obligatorio
-    if (!email) {
-      throw new UnprocessableEntityException('El correo es obligatorio.');
-    }
-
-    // Validación: formato de email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      throw new UnprocessableEntityException('El correo no tiene un formato válido.');
-    }
-
-    // Validación: email duplicado
-    //const emailExists = this.users.some((u) => u.email.toLowerCase() === email && (idActual ? u.id !== idActual : true));
-    const emailExists = this.users.some(function (u) {
-      // Uso de función tradicional para mayor claridad
-      // Verifica si el email ya existe en otro usuario
-      // Si idActual es proporcionado, excluye ese usuario de la verificación
-      // Retorna true si encuentra un email duplicado
-      return u.email.toLowerCase() === email && (idActual ? u.id !== idActual : true);
-    });
-
-    if (emailExists) {
-      throw new UnprocessableEntityException('Ya existe un usuario con ese correo.');
-    }
-
-    // Retornar valores ya normalizados
-    return { name, email };
-  }
-  // ======================================================
-  */
 }
