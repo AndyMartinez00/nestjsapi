@@ -1,5 +1,6 @@
-import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import { User } from './user.model';
+import { CreateUserDto } from './user.dt';
 
 @Injectable()
 export class UsersService {
@@ -29,5 +30,34 @@ export class UsersService {
       throw new ForbiddenException('No tienes permiso para acceder a este usuario.');
     }
     return user;
+  }
+  //method to create a new user
+  createUser(body: CreateUserDto) {
+    //valida email duplicado
+    this.validarEmailDuplicado(body.email);
+    //generate new ID
+    const maxId = this.users.reduce((max, u) => {
+      const current = Number(u.id);
+      return Number.isNaN(current) ? max : Math.max(max, current);
+    }, 0);
+    //creamos el nuevo usuario
+    const id = String(maxId + 1);
+    const newUser: User = { id: id, name: body.name, email: body.email };
+    this.users.push(newUser);
+    return newUser;
+  }
+  // Validación: email duplicado
+  private validarEmailDuplicado(email: string, idActual: string | null = null): boolean {
+    const emailLower = email.toLowerCase();
+
+    const emailExists = this.users.some(function (u) {
+      return u.email.toLowerCase() === emailLower && (idActual ? u.id !== idActual : true);
+    });
+
+    if (emailExists) {
+      throw new UnprocessableEntityException('Ya existe un usuario con ese correo.');
+    }
+
+    return false; // no hay duplicado
   }
 }

@@ -42,30 +42,19 @@ export class UsersController {
     const user = this.usersService.findById(id);
     return user;
   }
-  /*
   //POST /users
   @Post()
   //method to create a new user
   //createUser(@Body() body: { name: string; email: string }) {
   createUser(@Body() body: CreateUserDto) {
     console.log('Creating a new user', body);
-    //valida email duplicado
-    this.validarEmailDuplicado(body.email);
-    //generate new ID
-    const maxId = this.users.reduce((max, u) => {
-      const current = Number(u.id);
-      return Number.isNaN(current) ? max : Math.max(max, current);
-    }, 0);
-    //const maxId = this.users.reduce((max, u) => Math.max(max, Number(u.id)), 0);
-    const id = String(maxId + 1);
-    const newUser: User = { id: id, name: body.name, email: body.email };
-    //add new user to users array
-    this.users.push(newUser);
+    const newUser = this.usersService.createUser(body);
     return {
       message: `Usuario con id ${newUser.id} creado exitosamente`,
       newUser,
     };
   }
+  /*
   //DELETE /users/id
   @Delete(':id')
   //method to delete a user by ID
@@ -151,18 +140,5 @@ export class UsersController {
     return { name, email };
   }
   // ======================================================
-  // Validación: email duplicado
-  private validarEmailDuplicado(email: string, idActual: string | null = null): boolean {
-    const emailLower = email.toLowerCase();
-
-    const emailExists = this.users.some(function (u) {
-      return u.email.toLowerCase() === emailLower && (idActual ? u.id !== idActual : true);
-    });
-
-    if (emailExists) {
-      throw new UnprocessableEntityException('Ya existe un usuario con ese correo.');
-    }
-
-    return false; // no hay duplicado
-  } */
+  */
 }
