@@ -2,6 +2,7 @@ import { Controller, Get } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AppService } from './app.service';
 import { UsersService } from './users/users.service';
+import { EnvConfig } from './env.models';
 
 @Controller()
 export class AppController {
@@ -9,13 +10,13 @@ export class AppController {
     //injection of AppService and UsersService
     private readonly appService: AppService,
     private readonly usersService: UsersService,
-    private readonly configService: ConfigService,
+    private readonly configService: ConfigService<EnvConfig>,
   ) {}
 
   @Get()
   getHello(): string {
     //accessing a configuration value using ConfigService
-    const myVar = this.configService.get<string>('MY_VAR');
+    const myVar = this.configService.get('MY_VAR', { infer: true });
     //calling method from AppService
     const message = this.appService.getHello();
     //logging values to the console
