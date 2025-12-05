@@ -44,6 +44,8 @@ UPDATE src/app.module.ts (394 bytes)
 
 [GET] http://localhost:3000/
 Hello World
+[GT]http://localhost:3000/users-count/
+Fetching users count and details from UsersService to verify injection works in AppController
 [GET] http://localhost:3000/users
 Fetching all users
 [GET] http://localhost:3000/users/1
