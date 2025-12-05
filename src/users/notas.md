@@ -42,6 +42,16 @@ CREATE src/users/users.service.ts (93 bytes)
 CREATE src/users/users.service.spec.ts (471 bytes)
 UPDATE src/app.module.ts (394 bytes)
 
+--instalando Configuration [.env] npm i --save @nestjs/config
+PS D:\content\vpn\platzi\nestjs\my-blog-api> npm i --save @nestjs/config
+
+added 3 packages, and audited 712 packages in 8s
+
+137 packages are looking for funding
+run `npm fund` for details
+
+found 0 vulnerabilities
+
 [GET] http://localhost:3000/
 Hello World
 [GT]http://localhost:3000/users-count/
