@@ -1,13 +1,16 @@
 --ejcuatar serivor de desarollo
 PS D:\content\vpn\platzi\nestjs\my-blog-api> npm run start:dev
+
 --crenado un controler con el CLI de nest [nest g controller users]
 PS D:\content\vpn\platzi\nestjs\my-blog-api> nest g controller users
+
 --formats con prettier
 Para abrir la paleta de comandos,
 puede usar COMMAND + SHIFT + P en macOS
 o CTRL + SHIFT + P en Windows.
 En la paleta de comandos, busque format y seleccione Format Document.
 DTO: (Data Transfer Object) -->(Objeto de Transferencia de Datos)
+
 --instalando clas validator npm i --save class-validator class-transformer
 PS D:\content\vpn\platzi\nestjs\my-blog-api> npm i --save class-validator class-transformer
 added 5 packages, and audited 735 packages in 16s
@@ -21,6 +24,7 @@ To address all issues, run:
 npm audit fix
 
 Run `npm audit` for details.
+
 --para dar fromato a todo el proyecto npm run format
 PS D:\content\vpn\platzi\nestjs\my-blog-api> npm run format
 
@@ -36,6 +40,7 @@ src/users/user.dt.ts 3ms (unchanged)
 src/users/users.controller.spec.ts 6ms
 src/users/users.controller.ts 53ms (unchanged)
 test/app.e2e-spec.ts 9ms
+
 --crenado un servicio con el CLI de nest [nest g service users]
 PS D:\content\vpn\platzi\nestjs\my-blog-api> nest g service users
 CREATE src/users/users.service.ts (93 bytes)
@@ -51,6 +56,11 @@ added 3 packages, and audited 712 packages in 8s
 run `npm fund` for details
 
 found 0 vulnerabilities
+
+--modulo crear y organizar módulos en una aplicación NestJS [nest g mo users]
+PS D:\content\vpn\platzi\nestjs\my-blog-api> nest g mo users
+CREATE src/users/users.module.ts (86 bytes)
+UPDATE src/app.module.ts (645 bytes)
 
 [GET] http://localhost:3000/
 Hello World
