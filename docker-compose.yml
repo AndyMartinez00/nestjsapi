@@ -1,0 +1,51 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: my_blog_db
+      POSTGRES_USER: blog_user
+      POSTGRES_PASSWORD: blog_password
+      PGDATA: /var/lib/postgresql/17/docker
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # Optional: pgAdmin for database management
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@myblog.com
+      PGADMIN_DEFAULT_PASSWORD: admin_password
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - '5050:80'
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:
+  pgadmin_data:
+
+
+### docker ps [ver coentenedores activos]
+### To run the services, use the command:
+# docker-compose up -d --build  postgres pgadmin  [crear y levantar el contenedor]
+### to stop the services, use:
+# docker-compose down
+### to see logs, use:
+# docker-compose logs -f
+### to access pgAdmin, navigate to http://localhost:5050 in your web browser.
+### Default credentials are :admin123$
+### ver imagenes
+# docker images
+# eliminar imagen
+# docker rmi -f dpage/pgadmin4:latest postgres:15-alpine
+# ver volumenes
+# docker volume ls
+# eliminar volumen
+# docker volume rm my-blog-api_pgadmin_data my-blog-api_postgres_data
+### limpiar los volumenes
+# docker system prune -a -f
