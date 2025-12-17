@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { UsersController } from './users/users.controller';
-import { UsersService } from './users/users.service';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 
@@ -12,7 +10,5 @@ import { UsersModule } from './users/users.module';
     }),
     UsersModule,
   ],
-  controllers: [UsersController],
-  providers: [UsersService],
 })
 export class AppModule {}
