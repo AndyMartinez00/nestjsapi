@@ -62,6 +62,16 @@ PS D:\content\vpn\platzi\nestjs\my-blog-api> nest g mo users
 CREATE src/users/users.module.ts (86 bytes)
 UPDATE src/app.module.ts (645 bytes)
 
+--instalar TypeORM y conectarlo a PostgreSQL npm install @nestjs/typeorm typeorm pg
+PS D:\content\vpn\platzi\nestjs\my-blog-api> npm install --save @nestjs/typeorm typeorm pg
+
+added 36 packages, and audited 748 packages in 34s
+
+151 packages are looking for funding
+run `npm fund` for details
+
+found 0 vulnerabilities
+
 [GET] http://localhost:3000/
 Hello World
 [GT]http://localhost:3000/users-count/
