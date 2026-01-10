@@ -1,19 +1,22 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
-//decorator to define an entity and map it to the 'users' table in the database
-@Entity({ name: 'users' })
-export class User {
+@Entity({ name: 'profiles' })
+export class Profile {
   //decorator to define a primary generated column
   @PrimaryGeneratedColumn()
   id: number;
 
-  //decorator to define a regular column for password storage
+  //decorator to define a regular column with specific type and length
   @Column({ type: 'varchar', length: 255 })
-  password: string;
+  name: string;
 
-  //decorator to define a unique column for email addresses
-  @Column({ type: 'varchar', length: 255, unique: true })
-  email: string;
+  //decorator to define a regular column with specific type and length
+  @Column({ type: 'varchar', length: 255, name: 'last_name' })
+  lastname: string;
+
+  //decorator to define a regular column with specific type and length
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  avatar: string;
 
   //decorator to automatically manage created timestamp
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', name: 'created_at', nullable: false })
