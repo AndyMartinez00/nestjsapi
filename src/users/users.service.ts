@@ -1,16 +1,16 @@
 import { ForbiddenException, Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
-import { User } from './user.model';
 import { CreateUserDto, UpdateUserDto } from './user.dt';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { User } from './entities/user.entity';
 
 @Injectable()
 export class UsersService {
-  //property to hold users data tiped as User array from user.model.ts
-  private users: User[] = [
-    { id: '1', name: 'John Doe', email: 'jdoe@test.com' },
-    { id: '2', name: 'Jane Smith', email: 'jsmith@test.com' },
-    { id: '3', name: 'Alice Johnson pentes', email: 'ajohnson@test.com' },
-    { id: '4', name: 'Alice finner', email: 'afinner@test.com' },
-  ];
+  constructor(
+    @InjectRepository(User)
+    private usersRepository: Repository<User>,
+  ) {}
+
   //method to get all users
   findAll() {
     //if no users, throw error
