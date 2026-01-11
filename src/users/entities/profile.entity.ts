@@ -19,10 +19,10 @@ export class Profile {
   avatar: string;
 
   //decorator to automatically manage created timestamp
-  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', name: 'created_at', nullable: false })
+  @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP', name: 'created_at', nullable: false })
   createdAt: Date;
 
   //decorator to automatically manage updated timestamp
-  @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', name: 'updated_at', nullable: false })
+  @UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP', name: 'updated_at', nullable: false })
   updatedAt: Date;
 }
