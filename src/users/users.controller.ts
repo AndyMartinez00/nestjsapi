@@ -33,10 +33,7 @@ export class UsersController {
     console.log('Creating a new user', body);
     //call service method to create a new user
     const newUser = this.usersService.createUser(body);
-    return {
-      message: `Usuario creado exitosamente`,
-      newUser,
-    };
+    return newUser;
   }
   //DELETE /users/id
   @Delete(':id')
@@ -46,10 +43,7 @@ export class UsersController {
     //call service method to delete user by ID
     const deletedUser = this.usersService.deleteUser(id);
     //return deletedUser;
-    return {
-      message: `Usuario con id ${id} eliminado exitosamente`,
-      deletedUser,
-    };
+    return deletedUser;
   }
   //Put /users/id
   @Put(':id')
@@ -59,9 +53,6 @@ export class UsersController {
     //call service method to update user by ID
     const updatedUser = this.usersService.updateUser(id, changes);
     //return updatedUser
-    return {
-      message: `Usuario actualizado exitosamente`,
-      updatedUser,
-    };
+    return updatedUser;
   }
 }
