@@ -37,9 +37,14 @@ export class UsersService {
   //method to create a new user
   async createUser(body: CreateUserDto) {
     //crea un nuevo usuario
-    const newUser = await this.usersRepository.save(body);
-    //retorna el nuevo usuario creado
-    return newUser;
+    try {
+      //guarda el nuevo usuario en la base de datos
+      const newUser = await this.usersRepository.save(body);
+      //retorna el nuevo usuario creado
+      return newUser;
+    } catch {
+      throw new ForbiddenException('Error al crear el usuario.');
+    }
   }
   //method to delete a user by ID
   async deleteUser(id: number) {
@@ -57,7 +62,12 @@ export class UsersService {
     //actualiza el usuario con los cambios proporcionados
     const updatedUser = this.usersRepository.merge(user, changes);
     //guarda el usuario actualizado
-    return await this.usersRepository.save(updatedUser);
+    try {
+      const savedUser = await this.usersRepository.save(updatedUser);
+      return savedUser;
+    } catch {
+      throw new ForbiddenException('Error al actualizar el usuario.');
+    }
   }
   //metodo privado para retronar posiionn del usuario en el array
   private async findUserIndexById(id: number) {
