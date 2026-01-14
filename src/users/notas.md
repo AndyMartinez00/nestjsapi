@@ -72,6 +72,24 @@ run `npm fund` for details
 
 found 0 vulnerabilities
 
+----instalar mapped-types npm install --save @nestjs/mapped-typesPS D:\content\vpn\platzi\nestjs\my-blog-api> npm install --save @nestjs/mapped-types
+npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+
+added 56 packages, removed 421 packages, changed 68 packages, and audited 749 packages in 54s
+
+151 packages are looking for funding
+run `npm fund` for details
+
+9 vulnerabilities (8 low, 1 high)
+
+To address issues that do not require attention, run:
+npm audit fix
+
+To address all issues (including breaking changes), run:
+npm audit fix --force
+
+Run `npm audit` for details.PS D:\content\vpn\platzi\nestjs\my-blog-api> npm install --save @nestjs/mapped-types
+
 [GET] http://localhost:3000/
 Hello World
 [GT]http://localhost:3000/users-count/
