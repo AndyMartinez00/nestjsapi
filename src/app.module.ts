@@ -22,6 +22,7 @@ import { EnvConfig } from './env.models';
         database: configService.get('POSTGRES_DB', { infer: true }),
         autoLoadEntities: true,
         synchronize: true,
+        logging: true,
       }),
       inject: [ConfigService],
     }),

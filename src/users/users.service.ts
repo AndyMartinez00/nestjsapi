@@ -16,7 +16,11 @@ export class UsersService {
   //method to get all users
   async findAll() {
     //obtiene todos los usuarios de la base de datos
-    const users = await this.usersRepository.find();
+    const users = await this.usersRepository.find({
+      order: {
+        id: 'ASC',
+      },
+    });
     //si no hay usuarios, lanza una excepcion
     if (users.length === 0) {
       throw new NotFoundException('No se encontraron usuarios.');
