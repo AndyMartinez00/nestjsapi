@@ -62,9 +62,12 @@ export class UsersService {
   //method to update a user by ID
   async updateUser(id: number, changes: UpdateUserDto) {
     //busca el usuario por ID
-    const user = await this.findUserIndexById(id);
+    //const user = await this.findUserIndexById(id);
+    const user = await this.findUserWithProfileById(id);
     //actualiza el usuario con los cambios proporcionados
+    //console.log('Usuario antes de la actualización:', user);
     const updatedUser = this.usersRepository.merge(user, changes);
+    //console.log('Usuario después de la actualización:', updatedUser);
     //guarda el usuario actualizado
     try {
       const savedUser = await this.usersRepository.save(updatedUser);
@@ -82,6 +85,20 @@ export class UsersService {
       throw new NotFoundException(`Usuario con id ${id} no encontrado`);
     }
     //retorna el usuario
+    return user;
+  }
+
+  //metodo privado para retronar el usuario con su profile por ID
+  private async findUserWithProfileById(id: number) {
+    const user = await this.usersRepository.findOne({
+      where: { id },
+      relations: ['profile'],
+    });
+
+    if (!user) {
+      throw new NotFoundException(`Usuario con id ${id} no encontrado`);
+    }
+
     return user;
   }
 }
