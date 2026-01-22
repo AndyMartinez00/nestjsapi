@@ -1,6 +1,8 @@
-import { Controller, Get, Param, Post, Body, Delete, Put, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, Delete, Put, ParseIntPipe, ClassSerializerInterceptor, UseInterceptors } from '@nestjs/common';
 import { CreateUserDto, UpdateUserDto } from './dtos/user.dt';
 import { UsersService } from './users.service';
+import { plainToInstance } from 'class-transformer';
+import { UserResponseDto } from './dtos/user-response.dt';
 
 //users controller
 @Controller('users')
@@ -29,11 +31,16 @@ export class UsersController {
   @Post()
   //method to create a new user
   //createUser(@Body() body: { name: string; email: string }) {
+  //usando DTO para mejor estructura y validación
+  @UseInterceptors(ClassSerializerInterceptor)
   createUser(@Body() body: CreateUserDto) {
     console.log('Creating a new user', body);
     //call service method to create a new user
     const newUser = this.usersService.createUser(body);
-    return newUser;
+    //retornamos el usuario transformado a UserResponseDto
+    return plainToInstance(UserResponseDto, newUser, {
+      excludeExtraneousValues: true,
+    });
   }
   //DELETE /users/id
   @Delete(':id')
