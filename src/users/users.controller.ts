@@ -27,6 +27,19 @@ export class UsersController {
     const user = this.usersService.findById(id);
     return user;
   }
+  //GET /userprofile/id
+  @Get('profile/:id')
+  //method to get user profile by dynamic ID
+  getUserProfileById(@Param('id', ParseIntPipe) id: number) {
+    console.log(`Fetching user profile with IN ID ${id}`);
+    //call service method to find user by ID
+    const user = this.usersService.findUserWithProfileById(id);
+    //retornamos el usuario transformado a UserResponseDto
+    return plainToInstance(UserResponseDto, user, {
+      excludeExtraneousValues: true,
+    });
+  }
+
   //POST /users
   @Post()
   //method to create a new user

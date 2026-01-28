@@ -100,8 +100,8 @@ export class UsersService {
     return user;
   }
 
-  //metodo privado para retronar el usuario con su profile por ID
-  private async findUserWithProfileById(id: number) {
+  //metodo publico para retronar el usuario con su profile por ID
+  async findUserWithProfileById(id: number) {
     const user = await this.usersRepository.findOne({
       where: { id },
       relations: ['profile'],
@@ -109,6 +109,10 @@ export class UsersService {
 
     if (!user) {
       throw new NotFoundException(`Usuario con id ${id} no encontrado`);
+    }
+    // Validación adicional recomendada
+    if (!user.profile) {
+      throw new NotFoundException(`Perfil no encontrado para usuario con id ${id}`);
     }
 
     return user;
