@@ -3,6 +3,7 @@ import { CreateUserDto, UpdateUserDto } from './dtos/user.dt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
+import { Profile } from './entities/profile.entity';
 
 @Injectable()
 export class UsersService {
@@ -11,6 +12,10 @@ export class UsersService {
     @InjectRepository(User)
     //repositorio de usuarios
     private usersRepository: Repository<User>,
+    //inyeccion del repositorio de perfiles
+    @InjectRepository(Profile)
+    //repositorio de perfiles
+    private profileRepository: Repository<Profile>,
   ) {}
 
   //method to get all users
@@ -52,12 +57,19 @@ export class UsersService {
   }
   //method to delete a user by ID
   async deleteUser(id: number) {
-    //busca el usuario por ID
-    const user = await this.findUserIndexById(id);
-    //elimina el usuario
-    await this.usersRepository.delete(user.id);
-    //retorna un mensaje de confirmacion
-    return { message: `Usuario con id ${user.id} eliminado correctamente` };
+    const user = await this.findUserWithProfileById(id);
+
+    if (!user) throw new NotFoundException('...');
+
+    // Si hay perfil, lo borramos y la DB borra al User automáticamente
+    if (user.profile) {
+      await this.profileRepository.remove(user.profile);
+    } else {
+      // Si por algún error de integridad no hay perfil, borramos al User manualmente
+      await this.usersRepository.remove(user);
+    }
+
+    return { message: 'Eliminado con éxito' };
   }
   //method to update a user by ID
   async updateUser(id: number, changes: UpdateUserDto) {

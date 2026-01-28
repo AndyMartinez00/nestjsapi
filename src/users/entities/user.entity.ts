@@ -26,7 +26,7 @@ export class User {
 
   //creando relacion uno a uno entidad user con profile
   //relacion uno a uno obligatoria y Operaciones en cascada (insert, update, remove) de usuario a perfil
-  @OneToOne(() => Profile, { nullable: false, cascade: true })
+  @OneToOne(() => Profile, { nullable: false, cascade: ['insert', 'update', 'remove'], onDelete: 'CASCADE' })
   //definiendo la columna de union
   @JoinColumn({ name: 'profile_id' })
   //definiendo la propiedad profile
