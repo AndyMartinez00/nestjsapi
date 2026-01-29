@@ -90,6 +90,30 @@ npm audit fix --force
 
 Run `npm audit` for details.PS D:\content\vpn\platzi\nestjs\my-blog-api> npm install --save @nestjs/mapped-types
 
+----generando un nuevo recurso nest g resource [boilerplait]
+nest g controller users [controlador]
+nest g service users [servicio]
+nest g mo users [modulo]
+---PS D:\content\vpn\platzi\nestjs\my-blog-api> nest g resource posts
+? What transport layer do you use?
+❯ REST API
+GraphQL (code first)
+GraphQL (schema first)
+Microservice (non-HTTP)
+WebSockets
+---PS D:\content\vpn\platzi\nestjs\my-blog-api> nest g resource posts
+✔ What transport layer do you use? REST API
+✔ Would you like to generate CRUD entry points? Yes
+CREATE src/posts/posts.controller.ts (928 bytes)
+CREATE src/posts/posts.controller.spec.ts (586 bytes)
+CREATE src/posts/posts.module.ts (257 bytes)
+CREATE src/posts/posts.service.ts (635 bytes)
+CREATE src/posts/posts.service.spec.ts (471 bytes)
+CREATE src/posts/dto/create-post.dto.ts (31 bytes)
+CREATE src/posts/dto/update-post.dto.ts (173 bytes)
+CREATE src/posts/entities/post.entity.ts (22 bytes)
+UPDATE src/app.module.ts (1308 bytes)
+
 [GET] http://localhost:3000/
 Hello World
 [GT]http://localhost:3000/users-count/
