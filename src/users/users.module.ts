@@ -12,6 +12,6 @@ import { Profile } from './entities/profile.entity';
   controllers: [UsersController],
   providers: [UsersService],
   //expones el servicio para que otros módulos puedan usarlo
-  //exports: [UsersService],
+  exports: [UsersService],
 })
 export class UsersModule {}
