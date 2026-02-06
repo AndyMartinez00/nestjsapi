@@ -114,6 +114,22 @@ CREATE src/posts/dto/update-post.dto.ts (173 bytes)
 CREATE src/posts/entities/post.entity.ts (22 bytes)
 UPDATE src/app.module.ts (1308 bytes)
 
+---instlalando typeorm-naming-strategies sirve para controlar cómo se nombran automáticamente las tablas, columnas, claves foráneas, índices y constraints que genera TypeORM en la base de datos.
+
+PS D:\content\vpn\platzi\nestjs\my-blog-api> npm install typeorm-naming-strategies
+
+added 1 package, and audited 750 packages in 19s
+
+151 packages are looking for funding
+run `npm fund` for details
+
+7 vulnerabilities (3 low, 2 moderate, 2 high)
+
+To address all issues, run:
+npm audit fix
+
+Run `npm audit` for details.
+
 [GET] http://localhost:3000/
 Hello World
 [GT]http://localhost:3000/users-count/
