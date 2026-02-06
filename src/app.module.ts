@@ -4,6 +4,7 @@ import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { EnvConfig } from './env.models';
 import { PostsModule } from './posts/posts.module';
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
 @Module({
   imports: [
@@ -23,6 +24,8 @@ import { PostsModule } from './posts/posts.module';
         database: configService.get('POSTGRES_DB', { infer: true }),
         autoLoadEntities: true,
         synchronize: true,
+        // 👇 AQUÍ VA LA NAMING STRATEGY
+        namingStrategy: new SnakeNamingStrategy(),
         //logging: true,
         logging: ['query', 'error'],
       }),
