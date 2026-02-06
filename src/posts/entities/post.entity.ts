@@ -8,13 +8,13 @@ export class Post {
   @Column({ type: 'varchar', length: 255, nullable: false })
   title: string;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'text', nullable: true })
   content: string;
 
   @Column({ type: 'varchar', length: 255, nullable: true, name: 'cover_image' })
   coverImage: string;
 
-  @Column({ type: 'varchar', length: 500, name: 'summary' })
+  @Column({ type: 'varchar', length: 500, name: 'summary', nullable: true })
   summary: string;
 
   @Column({ type: 'boolean', default: true, name: 'is_draft' })
