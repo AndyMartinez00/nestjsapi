@@ -24,4 +24,8 @@ export class PostResponseDto {
 
   @Expose()
   updatedAt: Date;
+
+  //incluyendo el userId para mostrarlo en la respuesta
+  @Expose()
+  userId: number;
 }

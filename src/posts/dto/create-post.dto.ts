@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsOptional, MinLength, MaxLength, IsBoolean } from 'class-validator';
+import { IsNotEmpty, IsString, IsOptional, MinLength, MaxLength, IsBoolean, IsNumber } from 'class-validator';
 
 export class CreatePostDto {
   @IsString()
@@ -22,4 +22,9 @@ export class CreatePostDto {
   @MinLength(10)
   @MaxLength(500)
   summary: string;
+
+  //usuario que crea el post, se incluye en el DTO para asignarlo al post creado
+  @IsNumber()
+  @IsNotEmpty()
+  userId: number;
 }
