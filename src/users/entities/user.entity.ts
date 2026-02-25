@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { Profile } from './profile.entity';
+import { Post } from '../../posts/entities/post.entity';
 
 //decorator to define an entity and map it to the 'users' table in the database
 @Entity({ name: 'users' })
@@ -31,4 +32,9 @@ export class User {
   @JoinColumn({ name: 'profile_id' })
   //definiendo la propiedad profile
   profile: Profile;
+  //relacion uno a muchos con la entidad Post (un usuario puede tener muchos posts)
+  //bidireccional: un usuario tiene muchos posts y cada post pertenece a un usuario
+  @OneToMany(() => Post, (post) => post.user)
+  //definiendo la propiedad posts como un array de Post
+  posts: Post[];
 }

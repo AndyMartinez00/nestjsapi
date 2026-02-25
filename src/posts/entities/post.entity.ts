@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { User } from '../../users/entities/user.entity';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity({ name: 'posts' })
 export class Post {
@@ -25,4 +26,12 @@ export class Post {
 
   @UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP', name: 'updated_at', nullable: false })
   updatedAt: Date;
+  // Relación con la entidad User (autor del post)
+  //nullaeble: true para permitir que un post pueda existir sin un autor asignado (opcional)
+  //nullaeble: false si queremos que cada post tenga un autor obligatorio
+  @ManyToOne(() => User, (user) => user.posts, { nullable: true })
+  // Definiendo la columna de unión para la relación con User
+  @JoinColumn({ name: 'user_id' })
+  // Definiendo la propiedad user como una instancia de User
+  user: User;
 }
