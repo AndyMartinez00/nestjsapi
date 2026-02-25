@@ -29,7 +29,7 @@ export class Post {
   // Relación con la entidad User (autor del post)
   //nullaeble: true para permitir que un post pueda existir sin un autor asignado (opcional)
   //nullaeble: false si queremos que cada post tenga un autor obligatorio
-  @ManyToOne(() => User, (user) => user.posts, { nullable: true })
+  @ManyToOne(() => User, (user) => user.posts, { nullable: false })
   // Definiendo la columna de unión para la relación con User
   @JoinColumn({ name: 'user_id' })
   // Definiendo la propiedad user como una instancia de User
