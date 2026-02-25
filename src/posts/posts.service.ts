@@ -26,8 +26,8 @@ export class PostsService {
         //asocia el post con el usuario utilizando el userId proporcionado
         user: { id: createPostDto.userId }, //asocia el post con el usuario utilizando el userId proporcionadoS
       });
-      //retorna el nuevo post creado
-      return newPost;
+      //retorna el nuevo post creado buscando el post por su ID para incluir las relaciones necesarias (como el nombre del autor)
+      return this.findPostById(newPost.id);
     } catch {
       throw new ForbiddenException('Error al crear el post.');
     }
@@ -40,6 +40,7 @@ export class PostsService {
       order: {
         id: 'ASC',
       },
+      relations: ['user.profile'],
     });
     //si no hay posts, lanza una excepcion
     if (posts.length === 0) {
@@ -90,8 +91,11 @@ export class PostsService {
 
   //metodo privado para retornar el post por ID
   private async findPostById(id: number) {
-    //busca el post por ID
-    const post = await this.postsRepository.findOneBy({ id });
+    //busca el post por ID, incluyendo la relación con el usuario y su perfil para obtener el nombre del autor del post
+    const post = await this.postsRepository.findOne({
+      where: { id },
+      relations: ['user.profile'], //incluye la relación con el usuario y su perfil para obtener el nombre del autor del post
+    });
     //si no encuentra el post, lanza una excepcion
     if (!post) {
       throw new NotFoundException(`Post con id ${id} no encontrado`);
