@@ -19,7 +19,13 @@ export class PostsService {
     //crea un nuevo post
     try {
       //guarda el nuevo post en la base de datos
-      const newPost = await this.postsRepository.save(createPostDto);
+      const newPost = await this.postsRepository.save({
+        //propiedades del post a crear, incluyendo el userId para asociar el post con un usuario
+        //spread operator para copiar las propiedades del createPostDto al nuevo post
+        ...createPostDto,
+        //asocia el post con el usuario utilizando el userId proporcionado
+        user: { id: createPostDto.userId }, //asocia el post con el usuario utilizando el userId proporcionadoS
+      });
       //retorna el nuevo post creado
       return newPost;
     } catch {
