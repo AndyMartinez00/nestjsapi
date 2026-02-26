@@ -46,8 +46,58 @@ export class PostsService {
     if (posts.length === 0) {
       throw new NotFoundException('No se encontraron posts.');
     }
-    //retorna los posts encontrados
-    return posts;
+
+    //agrupa los posts por usuario y cuenta cuántos tiene cada uno
+    const postsByUser = posts.reduce(
+      (acc, post) => {
+        const userId = post.user.id;
+        if (!acc[userId]) {
+          acc[userId] = {
+            user: post.user,
+            postCount: 0,
+            posts: [],
+          };
+        }
+        acc[userId].postCount++;
+        acc[userId].posts.push(post);
+        return acc;
+      },
+      {} as Record<number, { user: any; postCount: number; posts: any[] }>,
+    );
+
+    //convierte el objeto en un array
+    const result = Object.values(postsByUser);
+
+    //retorna los posts agrupados por usuario con su conteo
+    return {
+      data: result,
+      totalUsers: result.length,
+      totalPosts: posts.length,
+    };
+  }
+
+  //method to get all posts for a specific user
+  async findByUser(userId: number) {
+    //busca los posts que pertenecen al usuario indicado
+    const posts = await this.postsRepository.find({
+      where: {
+        user: { id: userId },
+      },
+      order: {
+        id: 'ASC',
+      },
+      relations: ['user.profile'],
+    });
+
+    if (posts.length === 0) {
+      throw new NotFoundException(`No se encontraron posts para el usuario con id ${userId}`);
+    }
+
+    //retorna los posts junto con el conteo de posts del usuario
+    return {
+      data: posts,
+      totalPosts: posts.length,
+    };
   }
 
   //method to find post by ID

@@ -17,4 +17,9 @@ describe('PostsController', () => {
   it('should be defined', () => {
     expect(controller).toBeDefined();
   });
+  /*
+  it('should have a findByUser method', () => {
+    expect(typeof controller.findByUser).toBe('function');
+  });
+  */
 });

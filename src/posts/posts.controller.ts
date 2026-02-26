@@ -47,4 +47,11 @@ export class PostsController {
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.postsService.remove(id);
   }
+
+  // endpoint to get all posts from a specific user
+  @Get('user/:userId')
+  async findByUser(@Param('userId', ParseIntPipe) userId: number) {
+    const posts = await this.postsService.findByUser(userId);
+    return posts;
+  }
 }
